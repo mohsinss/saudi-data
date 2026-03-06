@@ -1,37 +1,48 @@
 import { ReactNode } from "react";
-import { Inter } from "next/font/google";
-import { Viewport } from "next";
-import PlausibleProvider from "next-plausible";
-import { getSEOTags } from "@/lib/seo";
-import ClientLayout from "@/components/LayoutClient";
-import config from "@/config";
+import { Inter, Noto_Sans_Arabic } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const font = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const notoArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-arabic",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const viewport: Viewport = {
-  // Will use the primary color of your theme to show a nice theme color in the URL bar of supported browsers
-  themeColor: config.colors.main,
+  themeColor: "#006C35",
   width: "device-width",
   initialScale: 1,
 };
 
-// This adds default SEO tags to all pages in our app.
-// You can override them in each page passing params to getSOTags() function.
-export const metadata = getSEOTags();
+export const metadata: Metadata = {
+  title: {
+    default: "DataSaudi - Kingdom of Saudi Arabia",
+    template: "%s | DataSaudi",
+  },
+  description:
+    "A unified platform to present and analyze the latest economic and social data for the Kingdom of Saudi Arabia and its regions.",
+  keywords: [
+    "Saudi Arabia",
+    "economic data",
+    "GDP",
+    "population",
+    "statistics",
+    "GASTAT",
+    "SAMA",
+    "Vision 2030",
+  ],
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme={config.colors.theme} className={font.className}>
-      {config.domainName && (
-        <head>
-          <PlausibleProvider domain={config.domainName} />
-        </head>
-      )}
-      <body>
-        {/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
-        <ClientLayout>{children}</ClientLayout>
-      </body>
+    <html lang="en" className={`${inter.variable} ${notoArabic.variable}`}>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
