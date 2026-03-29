@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Script from "next/script";
 import { useState } from "react";
 import {
   TrendingUp, Users, Banknote, BarChart3,
@@ -241,6 +242,19 @@ export default function KingdomOverviewPage() {
           ))}
         </div>
       </section>
+
+      {/* ── Chatbot Widget ── */}
+      <Script id="chatbot-config" strategy="afterInteractive">
+        {`
+          window.embeddedChatbotConfig = {
+            chatbotId: "c9b586b0-e981-45a8-9f63-791d7d9c8732",
+            domain: "chatsa.co",
+            channels: "web_chat",
+            widgetMode: "single"
+          }
+        `}
+      </Script>
+      <Script src="https://chatsa.co/embed.min.js" strategy="afterInteractive" defer />
     </div>
   );
 }
